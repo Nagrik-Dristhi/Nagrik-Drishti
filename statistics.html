@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nagarik Drishti</title>
+  <meta name="description" content="Nagarik Drishti / नागरिक दृष्टि — See it. Report it. Track it. Fix it." />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" />
+  <script src="js/theme.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="stats">
+  <div id="site-header"></div>
+
+  <main id="main-content">
+    <div class="container dash">
+      <h1 data-i18n="stats.h1"></h1>
+      <p class="lead" data-i18n="stats.lead"></p>
+      <div class="notice" style="margin-top:1rem" data-i18n="st.note"></div>
+
+      <div class="filters" role="group" data-i18n-aria-label="st.filters">
+        <div><label for="s-province" data-i18n="map.province"></label><select id="s-province"></select></div>
+        <div><label for="s-district" data-i18n="map.district"></label><select id="s-district"></select></div>
+        <div><label for="s-cat" data-i18n="map.f.cat"></label><select id="s-cat"></select></div>
+        <div><label for="s-status" data-i18n="map.f.status"></label><select id="s-status"></select></div>
+        <div><label for="s-period" data-i18n="st.period"></label><select id="s-period"></select></div>
+        <div><button type="button" id="s-clear" class="btn btn-outline btn-block" data-i18n="st.clear"></button></div>
+      </div>
+
+      <div class="kpis" id="kpis" role="list"></div>
+
+      <div class="charts">
+        <section class="chart wide" aria-labelledby="h-c-trend">
+          <h2 id="h-c-trend" data-i18n="st.c.trend"></h2>
+          <div id="c-trend"></div>
+        </section>
+        <section class="chart" aria-labelledby="h-c-province">
+          <h2 id="h-c-province" data-i18n="st.c.province"></h2>
+          <div id="c-province"></div>
+        </section>
+        <section class="chart" aria-labelledby="h-c-category">
+          <h2 id="h-c-category" data-i18n="st.c.category"></h2>
+          <div id="c-category"></div>
+        </section>
+        <section class="chart" aria-labelledby="h-c-status">
+          <h2 id="h-c-status" data-i18n="st.c.status"></h2>
+          <div id="c-status"></div>
+        </section>
+        <section class="chart" aria-labelledby="h-c-resolution">
+          <h2 id="h-c-resolution" data-i18n="st.c.resolution"></h2>
+          <div id="c-resolution"></div>
+        </section>
+        <section class="chart" aria-labelledby="h-c-district">
+          <h2 id="h-c-district" data-i18n="st.c.district"></h2>
+          <div id="c-district"></div>
+        </section>
+        <section class="chart" aria-labelledby="h-c-recurring">
+          <h2 id="h-c-recurring" data-i18n="st.c.recurring"></h2>
+          <div id="c-recurring"></div>
+        </section>
+      </div>
+
+      <section class="defs" aria-labelledby="defs-h">
+        <h2 id="defs-h" data-i18n="st.def.h"></h2>
+        <p data-i18n="st.def.1"></p><p data-i18n="st.def.2"></p><p data-i18n="st.def.3"></p><p data-i18n="st.def.4"></p><p data-i18n="st.def.5"></p>
+      </section>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/translations.js"></script>
+  <script src="js/translations-map.js"></script>
+  <script src="js/translations-reports.js"></script>
+  <script src="js/translations-pages.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/nepal-data.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/live-text.js"></script>
+  <script src="js/demo-store.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/stats.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Civic Map · Nagarik Drishti</title>
+  <meta name="description" content="Nagarik Drishti civic map of Nepal." />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" />
+  <script src="js/theme.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" crossorigin="" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="map">
+  <div id="site-header"></div>
+
+  <main id="main-content">
+    <div class="container map-page">
+      <h1 data-i18n="map.h1"></h1>
+      <p class="map-lead" data-i18n="map.lead"></p>
+
+      <div class="notice" data-i18n="map.demo"></div>
+
+      <div class="card map-toolbar">
+        <form id="map-search-form" class="map-search" role="search">
+          <label for="map-search-input" data-i18n="map.search.label"></label>
+          <div class="map-search-row">
+            <input id="map-search-input" type="search" autocomplete="off" minlength="2" required />
+            <button type="submit" class="btn btn-primary" data-i18n="map.search.btn"></button>
+          </div>
+        </form>
+
+        <div class="map-filters">
+          <div>
+            <label for="map-province" data-i18n="map.province"></label>
+            <select id="map-province"></select>
+          </div>
+          <div>
+            <label for="map-district" data-i18n="map.district"></label>
+            <select id="map-district"></select>
+          </div>
+          <div class="map-buttons">
+            <button type="button" id="map-locate" class="btn btn-outline" data-i18n="map.locate"></button>
+            <button type="button" id="map-reset" class="btn btn-outline" data-i18n="map.reset"></button>
+          </div>
+        </div>
+
+        <div class="map-filters five" role="group" data-i18n-aria-label="st.filters">
+          <div><label for="map-f-cat" data-i18n="map.f.cat"></label><select id="map-f-cat"></select></div>
+          <div><label for="map-f-status" data-i18n="map.f.status"></label><select id="map-f-status"></select></div>
+          <div><label for="map-f-period" data-i18n="map.f.period"></label><select id="map-f-period"></select></div>
+        </div>
+        <p id="map-count" class="map-count" role="status" aria-live="polite"></p>
+
+        <p id="map-search-status" class="map-status" role="status" aria-live="polite"></p>
+        <ul id="map-results" class="map-results"></ul>
+      </div>
+
+      <div id="map-lib-error" class="notice notice-error" role="alert" hidden data-i18n="map.lib.err"></div>
+      <div id="map-tile-error" class="notice notice-error" role="alert" hidden data-i18n="map.tiles.err"></div>
+
+      <div id="nd-map" class="nd-map" role="region" tabindex="-1"></div>
+
+      <div class="map-legend">
+        <strong data-i18n="map.legend"></strong>
+        <ul id="map-legend-items"></ul>
+        <div class="map-checks">
+          <label class="map-check demo-only"><input type="checkbox" id="map-demo-toggle" checked /><span data-i18n="map.demo.toggle"></span></label>
+          <label class="map-check" id="map-heat-label"><input type="checkbox" id="map-heat-toggle" /><span data-i18n="map.heat"></span></label>
+        </div>
+      </div>
+
+      <p class="map-note" data-i18n="map.heat.note"></p>
+      <p class="map-note" data-i18n="map.approx"></p>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js" crossorigin=""></script>
+  <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js" crossorigin=""></script>
+  <script src="js/basemaps.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/translations-map.js"></script>
+  <script src="js/translations-reports.js"></script>
+  <script src="js/translations-pages.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/nepal-data.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/live-text.js"></script>
+  <script src="js/demo-store.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/map.js"></script>
+</body>
+</html>

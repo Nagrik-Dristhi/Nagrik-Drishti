@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nagarik Drishti</title>
+  <meta name="description" content="Nagarik Drishti / नागरिक दृष्टि — See it. Report it. Track it. Fix it." />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" />
+  <script src="js/theme.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" crossorigin="" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="report">
+  <div id="site-header"></div>
+
+  <main id="main-content">
+    <div class="wide-page">
+      <h1 data-i18n="rep.h1"></h1>
+      <p class="lead" data-i18n="rep.lead"></p>
+
+      <div id="rep-view-form">
+        <div id="rep-errors" class="error-summary" role="alert" tabindex="-1" hidden></div>
+
+        <form id="rep-form" novalidate class="stack">
+          <div class="hp" aria-hidden="true"><label>Website <input type="text" id="f-website" tabindex="-1" autocomplete="off" /></label></div>
+          <section class="card form-section" aria-labelledby="s1">
+            <h2 id="s1" data-i18n="rep.s1"></h2>
+            <div class="form-grid two">
+              <div class="field span-2">
+                <label for="f-title" data-i18n="rep.title"></label>
+                <input id="f-title" type="text" maxlength="120" autocomplete="off" aria-describedby="h-title err-title" />
+                <p class="hint" id="h-title" data-i18n="rep.title.hint"></p>
+                <p class="field-error" id="err-title" hidden></p>
+              </div>
+              <div class="field">
+                <label for="f-cat" data-i18n="rep.cat"></label>
+                <select id="f-cat" aria-describedby="err-cat"></select>
+                <p class="field-error" id="err-cat" hidden></p>
+              </div>
+              <div class="field">
+                <label for="f-sub" data-i18n="rep.sub"></label>
+                <select id="f-sub" aria-describedby="err-sub"></select>
+                <p class="field-error" id="err-sub" hidden></p>
+              </div>
+              <div class="field span-2">
+                <label for="f-desc" data-i18n="rep.desc"></label>
+                <textarea id="f-desc" maxlength="2000" aria-describedby="h-desc err-desc"></textarea>
+                <p class="hint" id="h-desc" data-i18n="rep.desc.hint"></p>
+                <p class="field-error" id="err-desc" hidden></p>
+              </div>
+              <div class="field">
+                <label for="f-observed" data-i18n="rep.observed"></label>
+                <input id="f-observed" type="date" aria-describedby="err-observed" />
+                <p class="field-error" id="err-observed" hidden></p>
+              </div>
+            </div>
+          </section>
+
+          <section class="card form-section" aria-labelledby="s2">
+            <h2 id="s2" data-i18n="rep.s2"></h2>
+            <div class="form-grid three">
+              <div class="field">
+                <label for="f-province" data-i18n="map.province"></label>
+                <select id="f-province" aria-describedby="err-province"></select>
+                <p class="field-error" id="err-province" hidden></p>
+              </div>
+              <div class="field">
+                <label for="f-district" data-i18n="map.district"></label>
+                <select id="f-district" aria-describedby="err-district"></select>
+                <p class="field-error" id="err-district" hidden></p>
+              </div>
+              <div class="field">
+                <label for="f-ward" data-i18n="rep.ward"></label>
+                <input id="f-ward" type="number" min="1" max="35" step="1" inputmode="numeric" aria-describedby="err-ward" />
+                <p class="field-error" id="err-ward" hidden></p>
+              </div>
+              <div class="field span-2" id="local-field">
+                <label for="f-local" data-i18n="rep.local"></label>
+                <div id="local-input"></div>
+                <p class="hint" id="h-local" data-i18n="rep.local.hint"></p>
+                <p class="field-error" id="err-local" hidden></p>
+              </div>
+            </div>
+
+            <h3 style="margin:1.25rem 0 .2rem;font-size:.98rem" data-i18n="rep.loc.title"></h3>
+            <p class="hint" data-i18n="rep.loc.help"></p>
+
+            <div class="loc-tools">
+              <div class="loc-search">
+                <input id="loc-q" type="search" autocomplete="off" aria-label="" data-i18n-aria-label="rep.loc.search" />
+                <button type="button" id="loc-search-btn" class="btn btn-outline" data-i18n="rep.loc.searchbtn"></button>
+                <button type="button" id="loc-device" class="btn btn-outline" data-i18n="rep.loc.device"></button>
+              </div>
+              <p id="loc-search-status" class="map-status" role="status" aria-live="polite"></p>
+              <ul id="loc-results" class="map-results"></ul>
+              <details class="manual-coords">
+                <summary data-i18n="rep.loc.manual"></summary>
+                <div class="form-grid two" style="margin-top:.6rem">
+                  <div class="field"><label for="f-lat" data-i18n="rep.lat"></label><input id="f-lat" type="number" step="any" inputmode="decimal" /></div>
+                  <div class="field"><label for="f-lng" data-i18n="rep.lng"></label><input id="f-lng" type="number" step="any" inputmode="decimal" /></div>
+                </div>
+                <button type="button" id="loc-apply" class="btn btn-outline" style="margin-top:.6rem" data-i18n="rep.loc.apply"></button>
+              </details>
+            </div>
+
+            <div id="rep-lib-error" class="notice notice-error" role="alert" hidden data-i18n="map.lib.err" style="margin-top:.75rem"></div>
+            <div id="rep-tile-error" class="notice notice-error" role="alert" hidden data-i18n="map.tiles.err" style="margin-top:.75rem"></div>
+            <div id="rep-map" class="report-map" tabindex="-1" role="region"></div>
+            <p class="loc-status" id="loc-status" aria-live="polite"></p>
+            <p class="loc-warn" id="loc-warn" role="status" hidden></p>
+            <p class="hint" data-i18n="rep.loc.privacy"></p>
+            <p class="field-error" id="err-location" hidden></p>
+            <div id="dup-box" class="dup-box" role="status" hidden>
+              <strong data-i18n="rep.dup.title"></strong>
+              <p style="margin:.3rem 0 0" data-i18n="rep.dup.text"></p>
+              <ul id="dup-list"></ul>
+            </div>
+          </section>
+
+          <section class="card form-section" aria-labelledby="s3">
+            <h2 id="s3" data-i18n="rep.s3"></h2>
+            <div class="field">
+              <label for="f-photo" data-i18n="rep.photo"></label>
+              <input id="f-photo" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="h-photo err-photo" />
+              <p class="hint" id="h-photo" data-i18n="rep.photo.hint"></p>
+              <p class="field-error" id="err-photo" hidden></p>
+              <div class="photo-preview" id="photo-preview" hidden>
+                <img id="photo-img" alt="" />
+                <button type="button" id="photo-remove" class="btn btn-outline" data-i18n="rep.photo.remove"></button>
+              </div>
+            </div>
+          </section>
+
+          <section class="card form-section" aria-labelledby="s4">
+            <h2 id="s4" data-i18n="rep.s4"></h2>
+            <fieldset style="border:0;padding:0;margin:0">
+              <legend class="lbl" style="font-weight:600;font-size:.88rem;margin-bottom:.4rem" data-i18n="rep.contact"></legend>
+              <div class="radio-row">
+                <label><input type="radio" name="contact" value="inapp" checked /> <span data-i18n="rep.contact.inapp"></span></label>
+                <label><input type="radio" name="contact" value="none" /> <span data-i18n="rep.contact.none"></span></label>
+              </div>
+              <p class="hint" data-i18n="rep.contact.note"></p>
+            </fieldset>
+          </section>
+
+          <div class="form-actions">
+            <button type="submit" id="rep-submit" class="btn btn-primary btn-lg" data-i18n="rep.submit"></button>
+          </div>
+        </form>
+      </div>
+
+      <div id="rep-view-done" hidden>
+        <div class="card success-card">
+          <h2 data-i18n="rep.done.h"></h2>
+          <p class="hint" data-i18n="rep.done.ref"></p>
+          <div class="ref-big" id="done-ref"></div>
+          <p class="hint" data-i18n="rep.done.note"></p>
+          <p class="field-error" id="done-noimg" hidden data-i18n="rep.done.noimg"></p>
+          <dl class="summary-list" id="done-summary"></dl>
+          <div class="form-actions" style="justify-content:center">
+            <a id="done-track" class="btn btn-primary" href="track.html" data-i18n="rep.done.track"></a>
+            <button type="button" id="done-copy" class="btn btn-outline" data-i18n="rep.done.copy"></button>
+            <button type="button" id="done-another" class="btn btn-outline" data-i18n="rep.done.another"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js" crossorigin=""></script>
+  <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js" crossorigin=""></script>
+  <script src="js/basemaps.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/translations-map.js"></script>
+  <script src="js/translations-reports.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/nepal-data.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/live-text.js"></script>
+  <script src="js/demo-store.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/report.js"></script>
+</body>
+</html>

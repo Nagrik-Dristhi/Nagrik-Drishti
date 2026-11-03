@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nagarik Drishti</title>
+  <meta name="description" content="Nagarik Drishti / नागरिक दृष्टि — See it. Report it. Track it. Fix it." />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" />
+  <script src="js/theme.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="home">
+  <div id="site-header"></div>
+
+  <main id="main-content">
+    <section class="brand-band" aria-label="Nagarik Drishti">
+      <img src="assets/brand/hero-banner.jpg" alt="Nagarik Drishti — See it. Report it. Track it. Fix it." width="1536" height="535" fetchpriority="high" />
+    </section>
+
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <h1 data-i18n="home.h1"></h1>
+          <p class="hero-lead" data-i18n="home.lead2"></p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="report.html" data-i18n="home.cta.report"></a>
+            <a class="link-arrow" href="map.html" data-i18n="home.cta.map"></a>
+          </div>
+        </div>
+        <div class="dotmap-wrap">
+          <svg id="dotmap" class="dotmap" viewBox="0 0 780 480" role="img" data-i18n-aria-label="home.dots.aria"></svg>
+          <p class="dotmap-cap" data-i18n="home.dots.cap"></p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="ind-h">
+      <div class="container">
+        <p class="ledger-head" id="ind-h" data-i18n="home.ind.h"></p>
+        <div class="ledger" id="ledger"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head"><h2 data-i18n="home.how.h"></h2></div>
+        <ol class="path">
+          <li class="p-see"><img class="p-ico" src="assets/brand/ico-eye.png" alt="" width="36" /><h3 data-i18n="home.see.t"></h3><p data-i18n="home.see.p"></p></li>
+          <li class="p-report"><img class="p-ico" src="assets/brand/ico-pin.png" alt="" width="36" /><h3 data-i18n="home.report.t"></h3><p data-i18n="home.report.p"></p></li>
+          <li class="p-track"><img class="p-ico" src="assets/brand/ico-track.png" alt="" width="36" /><h3 data-i18n="home.track.t"></h3><p data-i18n="home.track.p"></p></li>
+          <li class="p-fix"><img class="p-ico" src="assets/brand/ico-shield.png" alt="" width="36" /><h3 data-i18n="home.fix.t"></h3><p data-i18n="home.fix.p"></p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head"><h2 data-i18n="home.cats.h"></h2></div>
+        <div class="index" id="cat-index"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="home.latest.h"></h2>
+          <a class="link-arrow" href="map.html" data-i18n="home.latest.all"></a>
+        </div>
+        <ul class="rows" id="latest-rows"></ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head"><h2 data-i18n="home.trust.h"></h2></div>
+        <div class="trust">
+          <div><h3 data-i18n="home.trust1.t"></h3><p data-i18n="home.trust1.p"></p></div>
+          <div><h3 data-i18n="home.trust2.t"></h3><p data-i18n="home.trust2.p"></p></div>
+          <div><h3 data-i18n="home.trust3.t"></h3><p data-i18n="home.trust3.p"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="container band-inner">
+        <div>
+          <h2 data-i18n="home.cta.h"></h2>
+          <p data-i18n="home.cta.p"></p>
+        </div>
+        <a class="btn btn-primary btn-lg" href="report.html" data-i18n="home.cta.report"></a>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/translations.js"></script>
+  <script src="js/translations-reports.js"></script>
+  <script src="js/translations-pages.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/nepal-data.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/live-text.js"></script>
+  <script src="js/demo-store.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

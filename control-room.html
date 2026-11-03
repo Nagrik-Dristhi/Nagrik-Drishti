@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="theme-color" content="#060d1c" />
+  <title>Control Room</title>
+  <link rel="icon" type="image/png" href="assets/brand/favicon-32.png" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+  <!-- LOGIN -->
+  <div id="gate" class="gate">
+    <div class="aurora"></div>
+    <form id="login" class="gate-card" autocomplete="off">
+      <img src="assets/brand/mark.png" alt="" class="gate-logo" />
+      <h1>Control Room</h1>
+      <p class="sub">Nagarik Drishti · restricted access</p>
+      <input id="pw" type="password" placeholder="Access key" autocomplete="current-password" required />
+      <button class="btn glow" id="login-btn" type="submit">Unlock</button>
+      <p id="login-msg" class="msg" role="alert"></p>
+      <a href="index.html" class="back">← Back to site</a>
+    </form>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="app" hidden>
+    <aside class="side">
+      <div class="side-brand"><img src="assets/brand/mark.png" alt="" /><div><b>Control Room</b><small id="session">session</small></div></div>
+      <nav id="nav">
+        <button data-v="overview" class="on"><i>◈</i>Overview</button>
+        <button data-v="reports"><i>☰</i>Reports <span id="nb-open" class="pill"></span></button>
+        <button data-v="map"><i>◉</i>Live map</button>
+        <button data-v="site"><i>⚙</i>Site controls</button>
+        <button data-v="audit"><i>⌚</i>Audit log</button>
+        <button data-v="security"><i>⛨</i>Security</button>
+      </nav>
+      <div class="side-foot">
+        <button id="refresh" class="ghost">↻ Refresh data</button>
+        <button id="logout" class="ghost danger">⏻ Sign out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="top"><h2 id="title">Overview</h2><span id="sync" class="sync">—</span></header>
+
+      <section data-view="overview">
+        <div id="kpis" class="kpis"></div>
+        <div class="grid2">
+          <div class="panel"><h3>Reports · last 30 days</h3><div id="c-trend"></div></div>
+          <div class="panel"><h3>By status</h3><div id="c-status"></div></div>
+          <div class="panel"><h3>By category</h3><div id="c-cat"></div></div>
+          <div class="panel"><h3>By province</h3><div id="c-prov"></div></div>
+        </div>
+        <div class="panel"><h3>Needs attention <small>(new or reopened, oldest first)</small></h3><div id="attn"></div></div>
+      </section>
+
+      <section data-view="reports" hidden>
+        <div class="toolbar">
+          <input id="q" type="search" placeholder="Search ref, title, description, district…" />
+          <select id="f-status"></select><select id="f-cat"></select><select id="f-prov"></select>
+          <select id="f-sort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="upd">Recently updated</option></select>
+          <button id="csv" class="btn small">⬇ CSV</button>
+        </div>
+        <div id="bulk" class="bulk" hidden>
+          <b id="bulk-n"></b>
+          <select id="bulk-status"></select><select id="bulk-dept"></select>
+          <button id="bulk-apply" class="btn small glow">Apply</button>
+          <button id="bulk-del" class="btn small danger">Delete</button>
+          <button id="bulk-clear" class="btn small ghost">Clear</button>
+        </div>
+        <div class="panel tablewrap"><table id="tbl"><thead><tr>
+          <th><input type="checkbox" id="all" aria-label="Select all" /></th><th>Ref</th><th>Report</th><th>Category</th><th>Place</th><th>Status</th><th>Age</th></tr></thead><tbody></tbody></table></div>
+        <div class="pager"><button id="prev" class="btn small ghost">‹</button><span id="pginfo"></span><button id="next" class="btn small ghost">›</button></div>
+      </section>
+
+      <section data-view="map" hidden><div class="panel nopad"><div id="amap"></div></div><p class="hint">Exact coordinates are shown here. Only admins see them — the public site shows positions rounded to ~1 km.</p></section>
+
+      <section data-view="site" hidden>
+        <div class="grid2">
+          <div class="panel">
+            <h3>New submissions</h3>
+            <p class="hint">Pause the report form instantly (e.g. during spam or maintenance).</p>
+            <label class="switch"><input type="checkbox" id="accepting" /><span></span><em id="acc-label"></em></label>
+          </div>
+          <div class="panel">
+            <h3>Site-wide announcement</h3>
+            <p class="hint">Shown as a banner on every public page. Leave both boxes empty to remove it.</p>
+            <label>English<textarea id="ann-en" rows="2" maxlength="300"></textarea></label>
+            <label>नेपाली<textarea id="ann-ne" rows="2" maxlength="300"></textarea></label>
+            <label>Style<select id="ann-lvl"><option value="info">Info (blue)</option><option value="warn">Warning (amber)</option><option value="alert">Alert (red)</option></select></label>
+            <button id="ann-save" class="btn glow">Publish</button>
+          </div>
+        </div>
+      </section>
+
+      <section data-view="audit" hidden><div class="panel"><h3>Recent admin activity</h3><div id="audit-list"></div></div></section>
+
+      <section data-view="security" hidden>
+        <div class="grid2">
+          <form id="pwform" class="panel">
+            <h3>Change access key</h3>
+            <label>Current key<input type="password" id="pw-old" autocomplete="current-password" required /></label>
+            <label>New key (10+ characters)<input type="password" id="pw-new" autocomplete="new-password" minlength="10" required /></label>
+            <button class="btn glow" type="submit">Change key</button><p id="pw-msg" class="msg"></p>
+          </form>
+          <div class="panel"><h3>Sign out everywhere</h3><p class="hint">Invalidates every open admin session (use it if a device was lost).</p><button id="revoke" class="btn danger">Revoke all sessions</button></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- DETAIL DRAWER -->
+  <div id="scrim" class="scrim" hidden></div>
+  <aside id="drawer" class="drawer" hidden aria-label="Report detail"></aside>
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/nepal-data.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
